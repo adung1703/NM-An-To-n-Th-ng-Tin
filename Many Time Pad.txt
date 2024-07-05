@@ -1,0 +1,177 @@
+Nguyễn Hữu Dũng - 20215545
+Vì bản mã là kết quả của phép XOR bản rõ với key (XOR từng ký tự từ trái sang phải).
+Mà bản mã cần giải mã (target ciphertext) có 166 ký tự hex nên ta chỉ cần quan tâm 166 ký tự hex đầu của tất cả bản mã. (Tương đương 83 ký tự text)
+TA ĐƯỢC BẢN RÚT GỌN CÁC BẢN MÃ:
+### ciphertext #1:
+315c4eeaa8b5f8aaf9174145bf43e1784b8fa00dc71d885a804e5ee9fa40b16349c146fb778cdf2d3aff021dfff5b403b510d0d0455468aeb98622b137dae857553ccd8883a7bc37520e06e515d22c954eba50
+### ciphertext #2:
+234c02ecbbfbafa3ed18510abd11fa724fcda2018a1a8342cf064bbde548b12b07df44ba7191d9606ef4081ffde5ad46a5069d9f7f543bedb9c861bf29c7e205132eda9382b0bc2c5c4b45f919cf3a9f1cb741
+### ciphertext #3:
+32510ba9a7b2bba9b8005d43a304b5714cc0bb0c8a34884dd91304b8ad40b62b07df44ba6e9d8a2368e51d04e0e7b207b70b9b8261112bacb6c866a232dfe257527dc29398f5f3251a0d47e503c66e935de812
+### ciphertext #4:
+32510ba9aab2a8a4fd06414fb517b5605cc0aa0dc91a8908c2064ba8ad5ea06a029056f47a8ad3306ef5021eafe1ac01a81197847a5c68a1b78769a37bc8f4575432c198ccb4ef63590256e305cd3a9544ee41
+### ciphertext #5:
+3f561ba9adb4b6ebec54424ba317b564418fac0dd35f8c08d31a1fe9e24fe56808c213f17c81d9607cee021dafe1e001b21ade877a5e68bea88d61b93ac5ee0d562e8e9582f5ef375f0a4ae20ed86e935de812
+### ciphertext #6:
+32510bfbacfbb9befd54415da243e1695ecabd58c519cd4bd2061bbde24eb76a19d84aba34d8de287be84d07e7e9a30ee714979c7e1123a8bd9822a33ecaf512472e8e8f8db3f9635c1949e640c621854eba0d
+### ciphertext #7:
+32510bfbacfbb9befd54415da243e1695ecabd58c519cd4bd90f1fa6ea5ba47b01c909ba7696cf606ef40c04afe1ac0aa8148dd066592ded9f8774b529c7ea125d298e8883f5e9305f4b44f915cb2bd05af513
+### ciphertext #8:
+315c4eeaa8b5f8bffd11155ea506b56041c6a00c8a08854dd21a4bbde54ce56801d943ba708b8a3574f40c00fff9e00fa1439fd0654327a3bfc860b92f89ee04132ecb9298f5fd2d5e4b45e40ecc3b9d59e941
+### ciphertext #9:
+271946f9bbb2aeadec111841a81abc300ecaa01bd8069d5cc91005e9fe4aad6e04d513e96d99de2569bc5e50eeeca709b50a8a987f4264edb6896fb537d0a716132ddc938fb0f836480e06ed0fcd6e9759f404
+### ciphertext #10:
+466d06ece998b7a2fb1d464fed2ced7641ddaa3cc31c9941cf110abbf409ed39598005b3399ccfafb61d0315fca0a314be138a9f32503bedac8067f03adbf3575c3b8edc9ba7f537530541ab0f9f3cd04ff50d
+### target ciphertext (decrypt this one): 
+32510ba9babebbbefd001547a810e67149caee11d945cd7fc81a05e9f85aac650e9052ba6a8cd8257bf14d13e6f0a803b54fde9e77472dbff89d71b57bddef121336cb85ccb8f3315f4b52e301d16e9f52f904
+Ta có yi XOR yj = xi XOR xj
+Sử dụng C++ để XOR từng cặp X, vì trong C++ hiển thị sang ASCII thì sẽ bị lỗi nếu ký tự ko nằm trong A-Za-z
+Nhận xét: Mọi ký tự trong a-zA-Z khi XOR với ký tự space sẽ được ký tự tương ứng dạng viết hoa/ viết thường của nó
+Ví dụ 1: 
+Ta có X1 Xor X2 có ký tự thứ 3 là 'L' -> Ký tự thứ 3 của chúng là 'l' và Space
+X1 Xor X3 có ký tự thứ 3 là 'E' -> Ký tự thứ 3 của X1 là Space, của X2 là 'l' và của X3 là 'e'
+
+Ví dụ 2:
+Trong danh sách X2 Xor với các X khác, có kí tự thứ 4 xuất hiện chữ E 4 lần, suy ra khả năng cao X2 có vị trí thứ 4 là 'e', ký tự của X còn lại tương ứng là space
+
+Tương tự với các ký tự khác ta cập nhật được nội dung của các X
+
+X1 xor X2  : --L--NW----O-R---B--M---OH-T---HN--A---MT------E--MO--SC-NC----RF--------EC-----R--
+X1 xor X3  : --EC--C-A----GT--O--M---Y]ZQW--HN--A--U-R---------KR-EC--ND------A---RO-H-A---B--RB
+X1 xor X4  : --EC--P------TT--O-----RBH-AW---KQ------T---P-----GT------K-L-------O-ST--P------T-
+X1 xor X5  : --UC--NA-C---TT------B-RSTA---T-A-U----MF---P-T----W------C----Z--C--RS---L---B--RB
+X1 xor X6  : --E--NA--C-------E-U--E-RHET----P--ACT--A-O-----R-GL-EK--------E--C---ET--O-U-----]
+X1 xor X7  : --E--NA--C-------E-U--E-YAAO----H-OA---MT---P-----]---EC--V----E--C--RU--EB----E-OC
+X1 xor X8  : ----------T--ET--I--M---RT-T--T-H--A--U-N-----T--SO---O--NB--S-SF----RA--EC------S-
+X1 xor X9  : -E----V---Y--Y]HEE------I^[-----M-U-----SC\M------ZH---C--M---OAF-----D-------B--NT
+X1 xor X10 : w-H-A-O-----Ro---R------O_TR-I\Z-ACHN--------U----ZOw-SC--EA------CT--I---GN-M-E-O]
+X1 xor X11 : --EC--C---T--S---EN--XE-HT[-----GQ-A----A-O------_-N--E-A-S-L--EF---O-O--ET---B--CT
+X1         : -- c-n -ac-o- t-- --m-e- -- w--h --a--um ---p------ -e c-n ---- fac--r the ---b-r -
+
+X2 xor X1  : --L--NW----O-R---B--M---OH-T---HN--A---MT------E--MO--SC-NC----RF--------EC-----R--
+X2 xor X3  : ---E-I--U--I--O-----------O-H---------SC-------A-----E-A-------RAS---EO-FF----T-A_S
+X2 xor X4  : ---E-I-----E--O-----C--J----H--A-O-N---P----R--G------SL-O--R--RG---N-SO-I------XY-
+X2 xor X5  : ---E-O-H-L-A--O--B--YE-J--TT--TC--WK--------R-MG--C---SS-E------E-T--ES--A----T-A_S
+X2 xor X6  : ---------L-W-R-----YO-N---P----A----EI-H--E----HB----E-E-PC-----T-T---EO-R--Y---R-L
+X2 xor X7  : ---------L-W-R-----YO-N---T----P--M---------R--L---O-----O------N-T--EU--------OFBR
+X2 xor X8  : --L--NW---DT--O---------------TC------SU------MI-E-O---N-----N-------EA---------E^-
+X2 xor X9  : -UD--I----IK--FBA---R-----NT---E--WS---E-HVO---O------_--A----E-------D--EC---T-ECE
+X2 xor X10 : e---Rc-----EP-------I-----A--A\-^_A-H--------E-R----M----H-O---RO-TO--I--N-R-P-OSBL
+X2 xor X11 : ---E-E----DM------L-S_N---NT---N-O-----E--E----E-IC----RAU--R-------N-O-------T-NNE
+X2         : --le- w-ul- -ro--b-- ---o- t--- n-- --s t---r-m ---o-es - c-r--r st-ne of c---to - 
+
+X3 xor X1  : --EC--C-A----GT--O--M---Y]ZQW--HN--A--U-R---------KR-EC--ND------A---RO-H-A---B--RB
+X3 xor X2  : ---E-I--U--I--O-----------O-H---------SC-------A-----E-A-------RAS---EO-FF----T-A_S
+X3 xor X4  : --------E-----------C--E--O----A-O-N--Y-----O--------MC--O--I----O--TA-FC-----T---S
+X3 xor X5  : -------BTT-------O--Yk-E---QO-SC--WK--SC----O-R---E--OC--E-----Z-SL-----E----------
+X3 xor X6  : ---R-I--ET---GT----TO-E-----O--A----ZET---P-----P--------PD----E-SL--F-FF---C-O--R-
+X3 xor X7  : ---R-I--ET---GT----TO-E-----G--P--M---EC----O------R-H-A-O-----E-TL-----EF----EC---
+X3 xor X8  : --EC--C-E-H---------------O-H-SC--------------R--H-R-R-------V-SAS------DF----U---S
+X3 xor X9  : -HMP----T-E----AB---R------QS--E--WS--T--YCT---------SOA-A----EAAP---E--R-A--------
+X3 xor X10 : t--EN---C---N-X-----I-------YI[-^_A-W-E------G------SA-A-H-R-----FLO-R--I--N-YRC---
+X3 xor X11 : --------E-H---S---U-SqE----QU--N-O----R---P------DE--V--NU--I--EAK--TM--EF---------
+X3         : --e -ic- t-i-g --o-t -eey-oq -- no- -- cr---o-ra---r- ca- d-i-- a l-t of fancy cars
+
+X4 xor X1  : --EC--P------TT--O-----RBH-AW---KQ------T---P-----GT------K-L-------O-ST--P------T-
+X4 xor X2  : ---E-I-----E--O-----C--J----H--A-O-N---P----R--G------SL-O--R--RG---N-SO-I------XY-
+X4 xor X3  : --------E-----------C--E--O----A-O-N--Y-----O--------MC--O--I----O--TA-FC-----T---S
+X4 xor X5  : -------O-R-------O---E----TAO-E--RE----P------L---I---------A--Z--O-NA-T------T---S
+X4 xor X6  : ---R-I---R---TT----U--DC--P-O----H-NNR----O-H---O----MK---K-E--E--O-A-------E----TL
+X4 xor X7  : ---R-I---R---TT----U--DC--T-G----Y_N---P-----------T--EL----R--E--O-OA-S-I-----E--R
+X4 xor X8  : --EC--P---T---------C--E----H-E--I-N--Y-----P-L--R-T--O--O--TA-SG---TA-N-I---------
+X4 xor X9  : -HMP------Y----PR------T--NAS----EE------I\NA----------L----L-SAG---C--U--P---T---E
+X4 xor X10 : t--EC-------X-X--------I--A-YWMS[-SGC-------SA------H-SL---SA-----ODW--T---H-R-E--L
+X4 xor X11 : ----------T---S---D--_Dw--NAU------N------O-I----^I---E-O------EG------R-I----T---E
+X4         : The ciphertext produced by a weak encryption algorithm looks as good as ciphertext 
+
+X5 xor X1  : --UC--NA-C---TT------B-RSTA---T-A-U----MF---P-T----W------C----Z--C--RS---L---B--RB
+X5 xor X2  : ---E-O-H-L-A--O--B--YE-J--TT--TC--WK--------R-MG--C---SS-E------E-T--ES--A----T-A_S
+X5 xor X3  : -------BTT-------O--Yk-E---QO-SC--WK--SC----O-R---E--OC--E-----Z-SL-----E----------
+X5 xor X4  : -------O-R-------O---E----TAO-E--RE----P------L---I---------A--Z--O-NA-T------T---S
+X5 xor X6  : ---R-O-U-----TT--E-U-FAC---T--R---YKHY-H--O-H-C-U-I--OK---C----------F-T----N-O--R-
+X5 xor X7  : ---R-O-U-----TT--E-U-FAC---O--A----K----------L---SW--ES-----------------A----EC---
+X5 xor X8  : --UC--NT-EW------I--YW-E--TT------PK--SU----P----YAW--O--E---L--E-E------A----U---S
+X5 xor X9  : -O]P---F-EZ----TOE---Y-T------H--------E-R\MA-G---T----S------I-E-R--E----L--------
+X5 xor X10 : y--ED--I-I--N-X--R---C-I---R-F-QQB-BE-------SAC---T-H-SS---I---Z---I-R-----I-GRC---
+X5 xor X11 : -------U-TW---S--EB---Aw------I--RAK---E--O-I-H--U----E-P---A---E-E-NM---A---------
+X5         : --u -on-t -a-t -- --y - s-t o- ca--k--s f--- - g-- w-o s-e-----zes -- s-eal--- -a--
+
+X6 xor X1  : --E--NA--C-------E-U--E-RHET----P--ACT--A-O-----R-GL-EK--------E--C---ET--O-U-----]
+X6 xor X2  : ---------L-W-R-----YO-N---P----A----EI-H--E----HB----E-E-PC-----T-T---EO-R--Y---R-L
+X6 xor X3  : ---R-I--ET---GT----TO-E-----O--A----ZET---P-----P--------PD----E-SL--F-FF---C-O--R-
+X6 xor X4  : ---R-I---R---TT----U--DC--P-O----H-NNR----O-H---O----MK---K-E--E--O-A-------E----TL
+X6 xor X5  : ---R-O-U-----TT--E-U-FAC---T--R---YKHY-H--O-H-C-U-I--OK---C----------F-T----N-O--R-
+X6 xor X7  : ----------------------------------C-BN-H--A-H---O--L-H-E--V----------F-S-R--U--U-O-
+X6 xor X8  : --E--NA--ET--ET----TO-H---P---R-----DST---A---C-FW-L-R---PB--C--T-E--F-N-R--N----SL
+X6 xor X9  : -HM--I---EY--Y]YP--C--P----T------YSYA---T-W----R----SGE--M---R-T-R----U--O-O-O--N-
+X6 xor X10 : t---Ec---I--Oo-----d--T------GZS-XO--D----N--I--Y---LA-E--ES---E---S---T---MOY-U-O-
+X6 xor X11 : ---R-E---TT--S----SI-\-----T-----H--^T----------R[I--V--E-S-E---T-E-A--R-R--A-O--C-
+X6         : --er- a-e -w- t--e- o- -r-p-o--ap-- - t-a------h --l- ke-p ----ets --fe fro- -o-r -
+
+X7 xor X1  : --E--NA--C-------E-U--E-YAAO----H-OA---MT---P-----]---EC--V----E--C--RU--EB----E-OC
+X7 xor X2  : ---------L-W-R-----YO-N---T----P--M---------R--L---O-----O------N-T--EU--------OFBR
+X7 xor X3  : ---R-I--ET---GT----TO-E-----G--P--M---EC----O------R-H-A-O-----E-TL-----EF----EC---
+X7 xor X4  : ---R-I---R---TT----U--DC--T-G----Y_N---P-----------T--EL----R--E--O-OA-S-I-----E--R
+X7 xor X5  : ---R-O-U-----TT--E-U-FAC---O--A----K----------L---SW--ES-----------------A----EC---
+X7 xor X6  : ----------------------------------C-BN-H--A-H---O--L-H-E--V----------F-S-R--U--U-O-
+X7 xor X8  : --E--NA--ET--ET----TO-H---T---A---J---EU----P-L--W-----N-O---N--N-E------------M--R
+X7 xor X9  : -HM--I---EY--Y]YP--C--P----O-------S---E-HRTA------H--I-------M-N-R--E---EB---EG---
+X7 xor X10 : t---Ec---I--Oo-----d--T------RIBXI--O-------SA-----OT------E---E---T-R---N-R-T-----
+X7 xor X11 : ---R-E---TT--S----SI-\-----O-----Y[----E--A-I----[SN---Rg---R---N-E-OM--------EO---
+X7         : --er- a-e -w- t--e- o- -y-t-g--ph-- --e t--- --l--- -he -o-----ent -- use b---e f---
+
+X8 xor X1  : ----------T--ET--I--M---RT-T--T-H--A--U-N-----T--SO---O--NB--S-SF----RA--EC------S-
+X8 xor X2  : --L--NW---DT--O---------------TC------SU------MI-E-O---N-----N-------EA---------E^-
+X8 xor X3  : --EC--C-E-H---------------O-H-SC--------------R--H-R-R-------V-SAS------DF----U---S
+X8 xor X4  : --EC--P---T---------C--E----H-E--I-N--Y-----P-L--R-T--O--O--TA-SG---TA-N-I---------
+X8 xor X5  : --UC--NT-EW------I--YW-E--TT------PK--SU----P----YAW--O--E---L--E-E------A----U---S
+X8 xor X6  : --E--NA--ET--ET----TO-H---P---R-----DST---A---C-FW-L-R---PB--C--T-E--F-N-R--N----SL
+X8 xor X7  : --E--NA--ET--ET----TO-H---T---A---J---EU----P-L--W-----N-O---N--N-E------------M--R
+X8 xor X9  : -E----V--------PO---R-----NT--H---PS--T--HRP--G--I-H--CN-A---YI------E---EC---U---E
+X8 xor X10 : w-H-A-O---S-H-X-----I-----A--E-QXYF-I-E------YC--P-OW--N-H-I-R-SO-EN-R---N-O-S-M--L
+X8 xor X11 : --EC--C-------S---N-SMH---NT--I--I----R---A---H---AN----GU--TT------TM--------U---E
+X8         : -- c-n -e- t-e --i-- ---r- -h- ch-- ----n----- i- - -ron- --- -s s--- and c---u-e- 
+
+X9 xor X1  : -E----V---Y--Y]HEE------I^[-----M-U-----SC\M------ZH---C--M---OAF-----D-------B--NT
+X9 xor X2  : -UD--I----IK--FBA---R-----NT---E--WS---E-HVO---O------_--A----E-------D--EC---T-ECE
+X9 xor X3  : -HMP----T-E----AB---R------QS--E--WS--T--YCT---------SOA-A----EAAP---E--R-A--------
+X9 xor X4  : -HMP------Y----PR------T--NAS----EE------I\NA----------L----L-SAG---C--U--P---T---E
+X9 xor X5  : -O]P---F-EZ----TOE---Y-T------H--------E-R\MA-G---T----S------I-E-R--E----L--------
+X9 xor X6  : -HM--I---EY--Y]YP--C--P----T------YSYA---T-W----R----SGE--M---R-T-R----U--O-O-O--N-
+X9 xor X7  : -HM--I---EY--Y]YP--C--P----O-------S---E-HRTA------H--I-------M-N-R--E---EB---EG---
+X9 xor X8  : -E----V--------PO---R-----NT--H---PS--T--HRP--G--I-H--CN-A---YI------E---EC---U---E
+X9 xor X10 : at--R-----^-E-QFO----------R-C-W]U-ZT-----]E-L------M-_----E--TAO-RO------GF-RRG---
+X9 xor X11 : -HMP----------ZAG-N--CP----------EAS-----M-C-----ET---IRN---L-H-----C----ET--------
+X9         : - -p-iv-t--k-y-  e--r---i-n s--em- s--t-s - ---o---h-s- -a---- a p---ed-re --- -e--
+
+X10 xor X1 : w-H-A-O-----Ro---R------O_TR-I\Z-ACHN--------U----ZOw-SC--EA------CT--I---GN-M-E-O]
+X10 xor X2 : e---Rc-----EP-------I-----A--A\-^_A-H--------E-R----M----H-O---RO-TO--I--N-R-P-OSBL
+X10 xor X3 : t--EN---C---N-X-----I-------YI[-^_A-W-E------G------SA-A-H-R-----FLO-R--I--N-YRC---
+X10 xor X4 : t--EC-------X-X--------I--A-YWMS[-SGC-------SA------H-SL---SA-----ODW--T---H-R-E--L
+X10 xor X5 : y--ED--I-I--N-X--R---C-I---R-F-QQB-BE-------SAC---T-H-SS---I---Z---I-R-----I-GRC---
+X10 xor X6 : t---Ec---I--Oo-----d--T------GZS-XO--D----N--I--Y---LA-E--ES---E---S---T---MOY-U-O-
+X10 xor X7 : t---Ec---I--Oo-----d--T------RIBXI--O-------SA-----OT------E---E---T-R---N-R-T-----
+X10 xor X8 : w-H-A-O---S-H-X-----I-----A--E-QXYF-I-E------YC--P-OW--N-H-I-R-SO-EN-R---N-O-S-M--L
+X10 xor X9 : at--R-----^-E-QFO----------R-C-W]U-ZT-----]E-L------M-_----E--TAO-RO------GF-RRG---
+X10 xor X11: t--ES-----S-E-----D--YT----R-SA\W-W-S-----N--P---\T-E--RT--EA--EO-EYW----N-H-NRO---
+X10        :  -he co-c--e Ox--r--i---o-a-y ------ -e------ -r---o as -h- --- of --ri-ing - r s--
+
+X11 xor X1 : --EC--C---T--S---EN--XE-HT[-----GQ-A----A-O------_-N--E-A-S-L--EF---O-O--ET---B--CT
+X11 xor X2 : ---E-E----DM------L-S_N---NT---N-O-----E--E----E-IC----RAU--R-------N-O-------T-NNE
+X11 xor X3 : --------E-H---S---U-SqE----QU--N-O----R---P------DE--V--NU--I--EAK--TM--EF---------
+X11 xor X4 : ----------T---S---D--_Dw--NAU------N------O-I----^I---E-O------EG------R-I----T---E
+X11 xor X5 : -------U-TW---S--EB---Aw------I--RAK---E--O-I-H--U----E-P---A---E-E-NM---A---------
+X11 xor X6 : ---R-E---TT--S----SI-\-----T-----H--^T----------R[I--V--E-S-E---T-E-A--R-R--A-O--C-
+X11 xor X7 : ---R-E---TT--S----SI-\-----O-----Y[----E--A-I----[SN---Rg---R---N-E-OM--------EO---
+X11 xor X8 : --EC--C-------S---N-SMH---NT--I--I----R---A---H---AN----GU--TT------TM--------U---E
+X11 xor X9 : -HMP----------ZAG-N--CP----------EAS-----M-C-----ET---IRN---L-H-----C----ET--------
+X11 xor X10: t--ES-----S-E-----D--YT----R-SA\W-W-S-----N--P---\T-E--RT--EA--EO-EYW----N-H-NRO---
+X11        : --e -ec-e- m-ss--e -s- -h-n u--ng - --r-a------e-- n-ver u-- --e ke- mo-e t--- -n--
+
+Ta giải được X4: "The ciphertext produced by a weak encryption algorithm looks as good as ciphertext " 
+-> X4 hex : 0x54686520636970686572746578742070726F64756365642062792061207765616B20656E6372797074696F6E20616C676F726974686D206C6F6F6B7320617320676F6F64206173206369706865727465787420
+Vậy Key = X4 Xor Y4 = 0x66396e89c9dbd8cc9874352acd6395102eafce78aa7fed28a07f6bc98d29c50b69b0339a19f8aa401a9c6d708f80c066c763fef0123148cdd8e802d05ba98777335daefcecd59c433a6b268b60bf4ef03c9a61
+
+X10 (text) = Y10 Xor Key -> Text = "The secret message is: When using a stream cipher, never use the key more than once"
+
+Vậy kết quả cần tìm là: "The secret message is: When using a stream cipher, never use the key more than once"
